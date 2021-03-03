@@ -2,14 +2,47 @@ import XCTest
 @testable import RegexForSwift
 
 final class RegexForSwiftTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(RegexForSwift().text, "Hello, World!")
+    
+    // MARK: RANGE
+    func testRangeOfFirstResult() {
+        let reg = Regex.results(regExText: "Hello", targetText: "Hello, world!", caseSensitive: false, diacriticSensitive: false, regexSearch: false)
+        XCTAssertTrue(reg.first != nil)
+        XCTAssertTrue(reg.first!.range == NSRange(location: 0, length: 5))
     }
-
-    static var allTests = [
-        ("testExample", testExample),
-    ]
+    
+    // MARK: CASE
+    func testCaseInsensitive() {
+        let reg = Regex.results(regExText: "heLlo", targetText: "Hello, world!", caseSensitive: false, diacriticSensitive: false, regexSearch: false)
+        XCTAssertTrue(reg.count == 1)
+    }
+    
+    func testCaseSensitive() {
+        let reg = Regex.results(regExText: "heLlo", targetText: "Hello, world!", caseSensitive: true, diacriticSensitive: false, regexSearch: false)
+        XCTAssertTrue(reg.count == 0)
+    }
+    
+    // MARK: DIACRITIC
+    func testDiacriticInsensitive() {
+        let reg = Regex.results(regExText: "hello", targetText: "héllo, world", caseSensitive: false, diacriticSensitive: false, regexSearch: false)
+        XCTAssertTrue(reg.count == 1)
+    }
+    
+    func testDiacriticSensitive() {
+        let reg = Regex.results(regExText: "hello", targetText: "héllo, world", caseSensitive: false, diacriticSensitive: true, regexSearch: false)
+        XCTAssertTrue(reg.count == 0)
+    }
+    
+    // MARK: REGEX
+    func testWithRegexCharacters() {
+        let reg = Regex.results(regExText: "h.llo", targetText: "hello, world", caseSensitive: false, diacriticSensitive: false, regexSearch: true)
+        XCTAssertTrue(reg.count == 1)
+    }
+    
+    func testWithoutRegexCharacters() {
+        let reg = Regex.results(regExText: "h.llo", targetText: "Hello, world!", caseSensitive: false, diacriticSensitive: false, regexSearch: false)
+        XCTAssertTrue(reg.count == 0)
+    }
 }
+
+
+
