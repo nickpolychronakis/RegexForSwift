@@ -2,8 +2,8 @@ import Foundation
 
 // MARK: REGEX FUNCTION
 // Επιστρέφει τα αποτελέσματα απο την αναζήτηση με regex σε ένα κείμενο.
-struct Regex {
-    static func results(regExText: String, targetText: String, caseSensitive: Bool, diacriticSensitive: Bool, regexSearch: Bool) -> [NSTextCheckingResult] {
+public struct Regex {
+    public static func results(regExText: String, targetText: String, caseSensitive: Bool, diacriticSensitive: Bool, regexSearch: Bool) -> [NSTextCheckingResult] {
         // Αφαιρώ τα διακριτικά (τόνους) απο το κείμενο.
         let foldedRegexText = diacriticSensitive ? regExText : regExText.folding(options: .diacriticInsensitive, locale: .current)
         // Υπάρχει κίνδυνος να τροποποιεί το μήκος του string χωρίς να το ξέρω, και να δημιουργήσει προβλήματα αργότερα, να το έχω υπ' όψην μου.
